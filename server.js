@@ -1,12 +1,18 @@
 const express = require('express');
-const sequelize = require('./config/db');
+const cors = require('cors');
+// const sequelize = require('./config/db');
+const { sequelize } = require('./models');
+
+// Routerのインポート
+const postsRouter = require('./routers/posts.router');
 
 const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello');
-});
+// Routerのマウント
+app.use('/', postsRouter);
 
 sequelize
   .sync()
